@@ -28,4 +28,4 @@ This plugin requires MODX Evolution 1.1.1 or later.
 
 **Credits**
 
-Plugin originaly created by Dmi3yy https://github.com/dmi3yy. Further developed by pmfx https://github.com/pmfx and Nicola1971 https://github.com/Nicola1971
+Plugin originaly created by Dmi3yy https://github.com/dmi3yy
