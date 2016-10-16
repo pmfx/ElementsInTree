@@ -273,7 +273,7 @@ $output .= !empty($row['description']) ? ' - '.$row['description'] : '' ;
 		$plugin = createResourceList('site_plugins',102,$tablePre);
 		$module = createResourceList('site_modules',112,$tablePre);
 
-		if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet') || $modx->hasPermission('edit_chunk') || $modx->hasPermission('edit_plugin') ) {
+		if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet') || $modx->hasPermission('edit_chunk') || $modx->hasPermission('edit_plugin') || $modx->hasPermission('exec_module')) {
 			$output = '</div>';
 		}
 
@@ -347,7 +347,7 @@ $output .= !empty($row['description']) ? ' - '.$row['description'] : '' ;
 	';
 		}
 		
-				if ($modx->hasPermission('edit_module')) {
+		if ($modx->hasPermission('exec_module')) {
 			$output .= '
 <div class="tab-page" id="tabMD" style="padding-left:0; padding-right:0;">
 <h2 class="tab" title="Modules">'.$tabLabel_module.'</h2>
