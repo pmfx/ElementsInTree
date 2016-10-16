@@ -32,152 +32,149 @@ if($e->name == 'OnManagerTreePrerender'){
 	
 	$output = '
 <style>
-  #treePane .tab-page ul {
-    margin: 0;
-    margin-bottom: 5px;
-    padding: 0;
-  }
+#treePane .tab-page ul {
+  margin: 0;
+  margin-bottom: 5px;
+  padding: 0;
+}
 
-  #treePane .tab-page ul li {
-    list-style: none;
-    padding-left: 10px;
-  }
+#treePane .tab-page ul li {
+  list-style: none;
+  padding-left: 10px;
+}
 
-  #treePane .tab-page ul li li {
-    list-style: none;
-    padding-left: 5px;
-    line-height: 1.6;
-  }
+#treePane .tab-page ul li li {
+  list-style: none;
+  padding-left: 5px;
+  line-height: 1.6;
+}
 
-  #treePane .tab-page ul li a {
-    text-decoration: none;
-  }
+#treePane .tab-page ul li a {
+  text-decoration: none;
+}
 
-  #treePane .tab-page ul li a:hover {
-    text-decoration: underline;
-  }
+#treePane .tab-page ul li a:hover {
+  text-decoration: underline;
+}
 
-  #treePane .tab {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
+#treePane .tab {
+	padding-left: 8px;
+	padding-right: 8px;
+}
 
-  #treePane .tab.selected {
-    padding-bottom: 6px;
-  }
+#treePane .tab.selected {
+	padding-bottom: 6px;
+}
 
-  #treePane .tab-row .tab span {
-    font-size: 14px;
-  }
+#treePane .tab-row .tab span {
+	font-size: 14px;
+}
 
-  #tabDoc {
-    overflow: hidden;
-  }
+#tabDoc {
+	 overflow: hidden;
+}
 
-  #treePane .ext-ico {
-    text-decoration:none!important;
-    color:#97D19C!important;
-  }
+#treePane .ext-ico {
+	text-decoration:none!important;
+	color:#97D19C!important;
+}
 
-  #treePane ul > li > strong > a.catname {
-    color: #444;
-  }
+#treePane ul > li > strong > a.catname
+{
+	color: #444;
+}
 
-  #treePane .fade {
-    opacity: 0;
-    -webkit-transition: opacity .15s linear;
-    -o-transition: opacity .15s linear;
-    transition: opacity .15s linear;
-  }
+#treePane .fade {
+  opacity: 0;
+  -webkit-transition: opacity .15s linear;
+  -o-transition: opacity .15s linear;
+  transition: opacity .15s linear;
+}
 
-  #treePane .fade.in {
-    opacity: 1;
-  }
+#treePane .fade.in {
+  opacity: 1;
+}
 
-  #treePane .collapse {
-    display: none;
-  }
+#treePane .collapse {
+  display: none;
+}
 
-  #treePane .collapse.in {
-    display: block;
-  }
+#treePane .collapse.in {
+  display: block;
+}
 
-  #treePane tr.collapse.in {
-    display: table-row;
-  }
+#treePane tr.collapse.in {
+  display: table-row;
+}
 
-  #treePane tbody.collapse.in {
-    display: table-row-group;
-  }
+#treePane tbody.collapse.in {
+  display: table-row-group;
+}
 
-  #treePane .collapsing {
-    position: relative;
-    height: 0;
-    overflow: hidden;
-    -webkit-transition-timing-function: ease;
-         -o-transition-timing-function: ease;
-            transition-timing-function: ease;
-    -webkit-transition-duration: .35s;
-         -o-transition-duration: .35s;
-            transition-duration: .35s;
-    -webkit-transition-property: height;
-    -o-transition-property: height;
-    transition-property: height;
-  }
+#treePane .collapsing {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  -webkit-transition-timing-function: ease;
+       -o-transition-timing-function: ease;
+          transition-timing-function: ease;
+  -webkit-transition-duration: .35s;
+       -o-transition-duration: .35s;
+          transition-duration: .35s;
+  -webkit-transition-property: height;
+  -o-transition-property: height;
+  transition-property: height;
+}
 
-  #treePane .panel-title a{
-    display: block;
-    padding: 4px 0 4px 15px;
-    color: #657587;
-    font-weight: bold;
-  }
+#treePane .panel-title a{
+	display: block;
+	padding: 4px 0 4px 15px;
+	color: #657587;
+	font-weight: bold;
+}
 
-  #treePane .panel-title > a::before {
-    content: "\f107"; /* fa-angle-down */
-    font-family: "FontAwesome";
-    position: absolute;
-    left: 15px;
-  }
+#treePane .panel-title > a::before {
+	content: "\f107"; /* fa-angle-down */
+  font-family: "FontAwesome";
+  position: absolute;
+  left: 15px;
+}
+#treePane .panel-title > a[aria-expanded="false"]::before {
+  content: "\f105"; /* fa-angle-right */
+}
+#treePane .panel-title > a[aria-expanded="true"] {
+	color: #657587;
+}
 
-  #treePane .panel-title > a[aria-expanded="false"]::before {
-    content: "\f105"; /* fa-angle-right */
-  }
+#treePane li.eltree {
+  margin-left: 5px;
+	line-height: 1.4em;
+}
 
-  #treePane .panel-title > a[aria-expanded="true"] {
-    color: #657587;
-  }
+#treePane li.eltree:before {
+  font-family: FontAwesome;
+  padding:0 5px 0 0;
+  margin-right:2px;
+  color: #657587;
+}
 
-  #treePane li.eltree {
-    margin-left: 5px;
-    line-height: 1.4em;
-  }
-
-  #treePane li.eltree:before {
-    font-family: FontAwesome;
-    padding:0 5px 0 0;
-    margin-right:2px;
-    color: #657587;
-  }
-
-  #tabTemp li.eltree:before {content: "\f1ea";}
-  #tabCH   li.eltree:before {content: "\f009";}
-  #tabSN   li.eltree:before {content: "\f121";}
-  #tabTV   li.eltree:before {content: "\f022";}
-  #tabPL   li.eltree:before {content: "\f1e6";}
+#tabTemp li.eltree:before {content: "\f1ea";}
+#tabCH   li.eltree:before {content: "\f009";}
+#tabSN   li.eltree:before {content: "\f121";}
+#tabTV   li.eltree:before {content: "\f022";}
+#tabPL   li.eltree:before {content: "\f1e6";}
 </style>
 
 <div class="tab-pane" id="treePane" style="border:0;">
- 
-  <script type="text/javascript" src="media/script/tabpane.js"></script>
-  <script src="media/script/bootstrap/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="media/script/jquery.quicksearch.js"></script>
-  <script type="text/javascript">
-    treePane = new WebFXTabPane(document.getElementById( "treePane" ),true);
-  </script>
-  
-  <div class="tab-page" id="tabDoc" style="padding-left:0; padding-right:0;">
-    <h2 class="tab">Site Tree</h2>
-    <script type="text/javascript">treePane.addTabPage( document.getElementById( "tabDoc" ) );</script>
+<script type="text/javascript" src="media/script/tabpane.js"></script>
+<script src="media/script/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="media/script/jquery.quicksearch.js"></script>
+<script type="text/javascript">
+treePane = new WebFXTabPane(document.getElementById( "treePane" ),true);
+</script>
+<div class="tab-page" id="tabDoc" style="padding-left:0; padding-right:0;">
+<h2 class="tab">Site Tree</h2>
+<script type="text/javascript">treePane.addTabPage( document.getElementById( "tabDoc" ) );</script>
 ';
 	$e->output($output);
 }
@@ -191,6 +188,7 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
 			$tabLabel_chunk     = '<i class="fa fa-th-large"></i>';
 			$tabLabel_snippet   = '<i class="fa fa-code"></i>';
 			$tabLabel_plugin    = '<i class="fa fa-plug"></i>';
+			$tabLabel_module    = '<i class="fa fa-cogs"></i>';
 			$tabLabel_refresh   = '<i class="fa fa-refresh"></i>';
 		}
 		else {
@@ -199,6 +197,7 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
 			$tabLabel_chunk     = 'CH';
 			$tabLabel_snippet   = 'SN';
 			$tabLabel_plugin    = 'PL';
+			$tabLabel_module    = 'MD';
 			$tabLabel_refresh   = 'Refresh';
 		}
 		
@@ -271,6 +270,7 @@ $output .= !empty($row['description']) ? ' - '.$row['description'] : '' ;
 		$chunk = createResourceList('site_htmlsnippets',78,$tablePre);
 		$snippet = createResourceList('site_snippets',22,$tablePre);
 		$plugin = createResourceList('site_plugins',102,$tablePre);
+		$module = createResourceList('site_modules',108,$tablePre);
 
 		if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet') || $modx->hasPermission('edit_chunk') || $modx->hasPermission('edit_plugin') ) {
 			$output = '</div>';
@@ -340,6 +340,21 @@ $output .= !empty($row['description']) ? ' - '.$row['description'] : '' ;
 <br/>
 <ul class="actionButtons">
 <li><a href="index.php?a=101" target="main">New Plugin</a></li>
+<li><a href="javascript:location.reload();" title="Click here if element was enabled/disabled/added/deleted to refresh the list.">'.$tabLabel_refresh.'</a></li>
+</ul>
+</div>
+	';
+		}
+		
+				if ($modx->hasPermission('edit_module')) {
+			$output .= '
+<div class="tab-page" id="tabMD" style="padding-left:0; padding-right:0;">
+<h2 class="tab" title="Modules">'.$tabLabel_module.'</h2>
+<script type="text/javascript">treePane.addTabPage( document.getElementById( "tabMD" ) );</script>
+'.$module.'
+<br/>
+<ul class="actionButtons">
+<li><a href="index.php?a=107" target="main">New Module</a></li>
 <li><a href="javascript:location.reload();" title="Click here if element was enabled/disabled/added/deleted to refresh the list.">'.$tabLabel_refresh.'</a></li>
 </ul>
 </div>
