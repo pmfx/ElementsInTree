@@ -5,7 +5,7 @@
  * Get access to all Elements inside Manager sidebar
  *
  * @category    plugin
- * @version     1.1.0
+ * @version     1.1.1
  * @license     http://creativecommons.org/licenses/GPL/2.0/ GNU Public License (GPL v2)
  * @internal    @properties &useIcons=Use icons in tabs;list;yes,no;yes;desc;Icons available in MODX version 1.1.1 or newer
  * @internal    @events OnManagerTreePrerender,OnManagerTreeRender
@@ -58,8 +58,13 @@ if($e->name == 'OnManagerTreePrerender'){
 }
 
 #treePane .tab {
-	padding-left: 8px;
-	padding-right: 8px;
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+#treePane .tab > span > .fa {
+  margin-right: 2px;
+  margin-left: 2px;
 }
 
 #treePane .tab.selected {
