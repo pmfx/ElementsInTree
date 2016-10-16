@@ -325,7 +325,7 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
 				$rs_category_row = $modx->db->getRow($rs_category);
 				if ($preCat !== $row['category']) {
 					$output .= $insideUl? '</div>': '';
-					$output .= '<div class="panel-heading"><span class="panel-title"><a class="accordion-toggle" href="#collapse'.$resourceTable.$row['catid'].'" data-toggle="collapse" data-parent="#accordion"> '.$rs_category_row['category'].' </a></span></div><div class="panel-collapse in '.$resourceTable.'"  id="collapse'.$resourceTable.$row['catid'].'"><ul>';
+					$output .= '<div class="panel-heading"><span class="panel-title"><a class="accordion-toggle" href="#collapse'.$resourceTable.$row['category'].'" data-toggle="collapse" data-parent="#accordion"> '.$rs_category_row['category'].' </a></span></div><div class="panel-collapse in '.$resourceTable.'"  id="collapse'.$resourceTable.$row['category'].'"><ul>';
 					$insideUl = 1;
 				}
 				$output .= '<li class="eltree"><span'.$class.'><a href="index.php?id='.$row['id'].'&amp;a='.$action.'" target="main"><span class="elementname">'.$row['name'].'</span><small> (' . $row['id'] . ')</small></a>
