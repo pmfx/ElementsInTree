@@ -2,7 +2,7 @@
 
 With ElementsInTree plugin user gets access to all Elements inside MODX Evolution Manager sidebar as long as his role permissions allows him to.
 
-![screenshot_1](https://cloud.githubusercontent.com/assets/10888055/19411050/280028e4-92fa-11e6-860e-4351447f7cb3.png)
+![screenshot_1](https://i.snag.gy/3cmOh9.jpg)
 
 **Requirements**
 
@@ -10,6 +10,7 @@ This plugin requires MODX Evolution 1.1.1 or later.
 
 **History**
 
+- 2016-10-16 Added Modules tab (Nicola1971)
 - 2016-10-13 Make plugin compatible with MODX install script (pmfx)
 - 2016-10-11 Added Bootstrap category accordion (Nicola1971)
 - 2016-10-11 Added FontAwesome icons to elements on lists (Nicola1971)
