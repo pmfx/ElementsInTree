@@ -163,6 +163,7 @@ if($e->name == 'OnManagerTreePrerender'){
 #tabSN   li.eltree:before {content: "\f121";}
 #tabTV   li.eltree:before {content: "\f022";}
 #tabPL   li.eltree:before {content: "\f1e6";}
+#tabMD   li.eltree:before {content: "\f085";}
 </style>
 
 <div class="tab-pane" id="treePane" style="border:0;">
