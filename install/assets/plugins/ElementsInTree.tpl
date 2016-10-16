@@ -5,7 +5,7 @@
  * Get access to all Elements inside Manager sidebar
  *
  * @category    plugin
- * @version     1.0.0
+ * @version     1.1.0
  * @license     http://creativecommons.org/licenses/GPL/2.0/ GNU Public License (GPL v2)
  * @internal    @properties &useIcons=Use icons in tabs;list;yes,no;yes;desc;Icons available in MODX version 1.1.1 or newer
  * @internal    @events OnManagerTreePrerender,OnManagerTreeRender
@@ -17,7 +17,7 @@
  * @author      Dmi3yy https://github.com/dmi3yy
  * @author      pmfx https://github.com/pmfx
  * @author      Nicola1971 https://github.com/Nicola1971
- * @lastupdate  13/10/2016
+ * @lastupdate  16/10/2016
  */
 
 $e = &$modx->Event;
