@@ -271,7 +271,7 @@ $output .= !empty($row['description']) ? ' - '.$row['description'] : '' ;
 		$chunk = createResourceList('site_htmlsnippets',78,$tablePre);
 		$snippet = createResourceList('site_snippets',22,$tablePre);
 		$plugin = createResourceList('site_plugins',102,$tablePre);
-		$module = createResourceList('site_modules',108,$tablePre);
+		$module = createResourceList('site_modules',112,$tablePre);
 
 		if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet') || $modx->hasPermission('edit_chunk') || $modx->hasPermission('edit_plugin') ) {
 			$output = '</div>';
