@@ -10,6 +10,7 @@ This plugin requires MODX Evolution 1.1.1 or later.
 
 **History**
 
+- 2016-10-17 Added configuration option to set custom Site Tree tab title (pmfx)
 - 2016-10-16 Fixed Modules tab permissions (pmfx)
 - 2016-10-16 Added Modules tab (Nicola1971)
 - 2016-10-13 Make plugin compatible with MODX install script (pmfx)
