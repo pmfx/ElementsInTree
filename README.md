@@ -1,15 +1,16 @@
 # ElementsInTree
 
-With ElementsInTree plugin user gets access to all Elements inside MODX Evolution Manager sidebar as long as his role permissions allows him to.
+With ElementsInTree plugin user gets access to all Elements and Modules inside MODX Evolution Manager sidebar as long as his role permissions allows it.
 
 ![screenshot_1](https://i.snag.gy/3cmOh9.jpg)
 
 **Requirements**
 
-This plugin requires MODX Evolution 1.1.1 or later.
+This plugin requires MODX Evolution 1.2 or later.
 
 **History**
 
+- 2016-10-19 1.1.4 Added configuration option to unify tree frame style with main frame for MODxRE2 (pmfx)
 - 2016-10-17 Added configuration option to set custom Site Tree tab title (pmfx)
 - 2016-10-16 Fixed Modules tab permissions (pmfx)
 - 2016-10-16 Added Modules tab (Nicola1971)
