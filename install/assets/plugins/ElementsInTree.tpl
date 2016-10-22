@@ -17,7 +17,8 @@
  * @author      Dmi3yy https://github.com/dmi3yy
  * @author      pmfx https://github.com/pmfx
  * @author      Nicola1971 https://github.com/Nicola1971
- * @lastupdate  21/10/2016
+ * @author      Deesen https://github.com/Deesen
+ * @lastupdate  22/10/2016
  */
 
 global $_lang;
