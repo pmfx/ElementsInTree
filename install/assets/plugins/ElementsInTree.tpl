@@ -237,7 +237,9 @@ if ($e->name == 'OnManagerTreePrerender') {
 	                    console.log(err);
 	                    elementsInTreeParams = { "cat_collapsed": {} };
 	                }
-	            }
+	            } else {
+                    elementsInTreeParams = { "cat_collapsed": {} };
+                }
 	            jQuery(document).ready(function() {
 	                // Shift-Mouseclick opens/collapsed all categories
 	                jQuery(".accordion-toggle").click(function(e) {
