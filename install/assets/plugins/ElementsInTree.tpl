@@ -5,7 +5,7 @@
  * Get access to all Elements inside Manager sidebar
  *
  * @category    plugin
- * @version     1.0.0
+ * @version     1.1.1
  * @license     http://creativecommons.org/licenses/GPL/2.0/ GNU Public License (GPL v2)
  * @internal    @properties &useIcons=Use icons in tabs;list;yes,no;yes;desc;Icons available in MODX version 1.1.1 or newer
  * @internal    @events OnManagerTreePrerender,OnManagerTreeRender
@@ -17,7 +17,7 @@
  * @author      Dmi3yy https://github.com/dmi3yy
  * @author      pmfx https://github.com/pmfx
  * @author      Nicola1971 https://github.com/Nicola1971
- * @lastupdate  13/10/2016
+ * @lastupdate  16/10/2016
  */
 
 $e = &$modx->Event;
@@ -58,8 +58,13 @@ if($e->name == 'OnManagerTreePrerender'){
 }
 
 #treePane .tab {
-	padding-left: 8px;
-	padding-right: 8px;
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+#treePane .tab > span > .fa {
+  margin-right: 2px;
+  margin-left: 2px;
 }
 
 #treePane .tab.selected {
@@ -180,7 +185,7 @@ treePane = new WebFXTabPane(document.getElementById( "treePane" ),true);
 	$e->output($output);
 }
 
-if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet') || $modx->hasPermission('edit_chunk') || $modx->hasPermission('edit_plugin') ) {
+if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet') || $modx->hasPermission('edit_chunk') || $modx->hasPermission('edit_plugin') || $modx->hasPermission('exec_module') ) {
 	if($e->name == 'OnManagerTreeRender'){
 		
 		if ($useIcons=='yes') {
@@ -273,7 +278,7 @@ $output .= !empty($row['description']) ? ' - '.$row['description'] : '' ;
 		$plugin = createResourceList('site_plugins',102,$tablePre);
 		$module = createResourceList('site_modules',112,$tablePre);
 
-		if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet') || $modx->hasPermission('edit_chunk') || $modx->hasPermission('edit_plugin') || $modx->hasPermission('exec_module')) {
+		if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet') || $modx->hasPermission('edit_chunk') || $modx->hasPermission('edit_plugin') || $modx->hasPermission('exec_module') ) {
 			$output = '</div>';
 		}
 
@@ -362,7 +367,7 @@ $output .= !empty($row['description']) ? ' - '.$row['description'] : '' ;
 	';
 		}
 
-		if ($modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet') || $modx->hasPermission('edit_chunk') || $modx->hasPermission('edit_plugin') ) {
+        if ($modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet') || $modx->hasPermission('edit_chunk') || $modx->hasPermission('edit_plugin') || $modx->hasPermission('exec_module') ) {
 			$output .= '</div>';
 			$e->output($output);
 		}
