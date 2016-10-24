@@ -60,38 +60,33 @@ if ($e->name == 'OnManagerTreePrerender') {
 	if ($treeButtonsInTab == 'yes') {
 		$treeButtonsInTab_js  = 'jQuery("#treeMenu").detach().prependTo("#tabDoc");';
 		$treeButtonsInTab_css = '
-		#treeHolder {
-			padding-top: 10px;
-			padding-left: 10px;
-		}
-    
-		#treeMenu {
-			margin-left: 0;
-			margin-bottom: 6px;
-			background-color: transparent !important;
-			background-color: rgba(0, 0, 0, 0.03) !important;
-			border-bottom-width: 1px !important;
-			border-bottom-color: #e7e7e7 !important;
-		}
-		
-		#Button1 {
-			margin-left: 3px;
-		}
-		
-		#Button10 {
-			margin-right: 3px;
-		}
+      #treeHolder {
+        padding-top: 10px;
+        padding-left: 10px;
+      }
+      
+      #treeMenu {
+        margin-left: 0;
+        margin-bottom: 6px;
+        background-color: transparent !important;
+        border-bottom-width: 0;
+      }
 
-		.treeButton,
-		.treeButtonDisabled {
-			padding: 2px 3px;
-		}
+      .treeButton,
+      .treeButtonDisabled {
+        padding: 2px 3px;
+      }
 
-		#tabDoc {
-			padding-top: 11px !important;
-			padding-left: 13px !important;
-			padding-right: 13px !important;
-		}
+      #tabDoc {
+        padding-top: 11px !important;
+        padding-left: 13px !important;
+        padding-right: 13px !important;
+      }
+      
+      #floater {
+        width: 99%;
+        top: 94px;
+      }
 	  ';
 	}
 	
