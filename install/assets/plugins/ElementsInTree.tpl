@@ -5,7 +5,7 @@
  * Get access to all Elements and Modules inside Manager sidebar
  *
  * @category    plugin
- * @version     1.2.1
+ * @version     1.2.2
  * @license     http://creativecommons.org/licenses/GPL/2.0/ GNU Public License (GPL v2)
  * @internal    @properties &tabTreeTitle=Tree Tab Title;text;Site Tree;;Custom title of Site Tree tab. &useIcons=Use icons in tabs;list;yes,no;yes;;Icons available in MODX version 1.2 or newer. &treeButtonsInTab=Tree Buttons in tab;list;yes,no;yes;;Move Tree Buttons into Site Tree tab. &unifyFrames=Unify Frames;list;yes,no;no;;Unify Tree and Main frame style. Right now supports MODxRE2 theme only.
  * @internal    @events OnManagerTreePrerender,OnManagerTreeRender
@@ -18,7 +18,7 @@
  * @author      pmfx https://github.com/pmfx
  * @author      Nicola1971 https://github.com/Nicola1971
  * @author      Deesen https://github.com/Deesen
- * @lastupdate  24/10/2016
+ * @lastupdate  26/10/2016
  */
 
 global $_lang;
@@ -275,7 +275,8 @@ if ($e->name == 'OnManagerTreePrerender') {
 			var storageKey = "MODX_elementsInTreeParams";
 	        var storage = localStorage.getItem(storageKey);
 	        var elementsInTreeParams = {};
-	        
+	        var searchFieldCache = {};
+
 			try {
 	            if(storage != null) {
 	                try {
@@ -287,6 +288,40 @@ if ($e->name == 'OnManagerTreePrerender') {
 	            } else {
                     elementsInTreeParams = { "cat_collapsed": {} };
                 }
+                
+                // Remember collapsed categories functions
+                function setRememberCollapsedCategories(obj=null) {
+                    obj = obj == null ? elementsInTreeParams.cat_collapsed : obj;
+					for (var type in obj) {
+						if (!elementsInTreeParams.cat_collapsed.hasOwnProperty(type)) continue;
+						for (var category in elementsInTreeParams.cat_collapsed[type]) {
+							if (!elementsInTreeParams.cat_collapsed[type].hasOwnProperty(category)) continue;
+							state = elementsInTreeParams.cat_collapsed[type][category];
+							if(state == null) continue;
+							var collapseItem = jQuery("#collapse" + type + category);
+							var toggleItem = jQuery("#toggle" + type + category);
+							if(state == 0) {
+								// Collapsed
+								collapseItem.collapse("hide");
+								toggleItem.addClass("collapsed");
+							} else {
+								// Open
+								collapseItem.collapse("show");
+								toggleItem.removeClass("collapsed");
+							} 
+						}
+					}
+				}
+                function setLastCollapsedCategory(type, id, state) {
+	                  state = state != 1 ? 1 : 0;
+	                  if(typeof elementsInTreeParams.cat_collapsed[type] == "undefined") elementsInTreeParams.cat_collapsed[type] = {};
+	                  elementsInTreeParams.cat_collapsed[type][id] = state;
+                }
+				function writeElementsInTreeParamsToStorage() {
+					var jsonString = JSON.stringify(elementsInTreeParams);
+					localStorage.setItem(storageKey, jsonString );
+				}
+				
 	            jQuery(document).ready(function() {
               
                 '.$treeButtonsInTab_js.'
@@ -322,37 +357,8 @@ if ($e->name == 'OnManagerTreePrerender') {
 					      }
 					});
 					  
-	                // Remember collapsed categories function
-					for (var type in elementsInTreeParams.cat_collapsed) {
-						if (!elementsInTreeParams.cat_collapsed.hasOwnProperty(type)) continue;
-						for (var category in elementsInTreeParams.cat_collapsed[type]) {
-							if (!elementsInTreeParams.cat_collapsed[type].hasOwnProperty(category)) continue;
-							state = elementsInTreeParams.cat_collapsed[type][category];
-							if(state == null) continue;
-							var collapseItem = jQuery("#collapse" + type + category);
-							var toggleItem = jQuery("#toggle" + type + category);
-							if(state == 0) {
-								// Collapsed
-								collapseItem.collapse("hide");
-								toggleItem.addClass("collapsed");
-							} else {
-								// Open
-								collapseItem.collapse("show");
-								toggleItem.removeClass("collapsed");
-							} 
-						}
-					}
+					setRememberCollapsedCategories();
 
-	                function setLastCollapsedCategory(type, id, state) {
-	                  state = state != 1 ? 1 : 0;
-	                  if(typeof elementsInTreeParams.cat_collapsed[type] == "undefined") elementsInTreeParams.cat_collapsed[type] = {};
-	                  elementsInTreeParams.cat_collapsed[type][id] = state;
-	                }
-	                
-					function writeElementsInTreeParamsToStorage() {
-						var jsonString = JSON.stringify(elementsInTreeParams);
-						localStorage.setItem(storageKey, jsonString );
-					}
 	            });
 	        } catch(err) {
 	            alert("document.ready error: " + err);
@@ -451,6 +457,12 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
         <script>
           jQuery(\'#collapse'.$resourceTable.$row['catid'].'\').collapse();
           initQuicksearch(\'tree_'.$resourceTable.'_search\', \'tree_'.$resourceTable.'\');
+          jQuery(\'#tree_'.$resourceTable.'_search\').on(\'focus\', function () {
+            searchFieldCache = elementsInTreeParams.cat_collapsed;
+            jQuery(\'.'.$resourceTable.'\').collapse(\'show\');
+          }).on(\'blur\', function () {
+            setRememberCollapsedCategories(searchFieldCache);
+          });
         </script>';
 			return $output;
 		}
@@ -522,6 +534,12 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
     
         <script>
           initQuicksearch(\'tree_'.$resourceTable.'_search\', \'tree_'.$resourceTable.'\');
+          jQuery(\'#tree_'.$resourceTable.'_search\').on(\'focus\', function () {
+            searchFieldCache = elementsInTreeParams.cat_collapsed;
+            jQuery(\'.'.$resourceTable.'\').collapse(\'show\');
+          }).on(\'blur\', function () {
+            setRememberCollapsedCategories(searchFieldCache);
+          });
         </script>';
 			return $output;
 		}
