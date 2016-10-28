@@ -432,7 +432,7 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
 			$limit = $modx->db->getRecordCount($rs);
 			
 			if($limit<1){
-				echo $_lang['no_results'];
+				return '';
 			}
 			
 			$preCat = '';
@@ -508,7 +508,7 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
 			$limit = $modx->db->getRecordCount($rs);
 			
 			if($limit<1){
-				echo $_lang['no_results'];
+                return '';
 			}
 			
 			$preCat   = '';
