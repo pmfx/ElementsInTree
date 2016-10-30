@@ -508,7 +508,7 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
 					$insideUl = 1;
 				}
 				if ($resourceTable == 'site_plugins') $class = $row['disabled'] ? ' class="disabledPlugin"' : '';
-				$output .= '<li class="eltree"><span'.$class.'><a href="index.php?id='.$row['id'].'&amp;a='.$action.'&amp;ref=tree" target="main"><span class="elementname">'.$row['name'].'</span><small> (' . $row['id'] . ')</small></a>
+				$output .= '<li class="eltree"><span'.$class.'><a href="index.php?id='.$row['id'].'&amp;a='.$action.'" target="main"><span class="elementname">'.$row['name'].'</span><small> (' . $row['id'] . ')</small></a>
                   <a class="ext-ico" href="#" title="Open in new window" onclick="window.open(\'index.php?id='.$row['id'].'&a='.$action.'\',\'gener\',\'width=800,height=600,top=\'+((screen.height-600)/2)+\',left=\'+((screen.width-800)/2)+\',toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no\')"> <small><i class="fa fa-external-link" aria-hidden="true"></i></small></a>'.($modx_textdir ? '&rlm;' : '').'</span>';
 				
 				$output .= $row['locked'] ? ' <em>('.$_lang['locked'].')</em>' : "" ;
