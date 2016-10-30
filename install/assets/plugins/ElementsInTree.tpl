@@ -8,7 +8,7 @@
  * @version     1.2.2
  * @license     http://creativecommons.org/licenses/GPL/2.0/ GNU Public License (GPL v2)
  * @internal    @properties &tabTreeTitle=Tree Tab Title;text;Site Tree;;Custom title of Site Tree tab. &useIcons=Use icons in tabs;list;yes,no;yes;;Icons available in MODX version 1.2 or newer. &treeButtonsInTab=Tree Buttons in tab;list;yes,no;yes;;Move Tree Buttons into Site Tree tab. &unifyFrames=Unify Frames;list;yes,no;no;;Unify Tree and Main frame style. Right now supports MODxRE2 theme only.
- * @internal    @events OnManagerTreePrerender,OnManagerTreeRender
+ * @internal    @events OnManagerTreePrerender,OnManagerTreeRender,OnManagerMainFrameHeaderHTMLBlock
  * @internal    @modx_category Manager and Admin
  * @internal    @installset base
  * @documentation Requirements: This plugin requires MODX Evolution 1.2 or later
@@ -24,6 +24,20 @@
 global $_lang;
 
 $e = &$modx->Event;
+
+if ( $e->name == "OnManagerMainFrameHeaderHTMLBlock" ) {
+	$relevantActions = array(16,301,78,22,102,108,76,106);
+	if(in_array($_GET['a'],$relevantActions)) {
+		$html  = "<!-- elementsInTree Start -->\n";
+		$html .= "<script>";
+		$html .= "jQuery(document).ready(function() {";
+		$html .= "top.tree.location.reload();";
+		$html .= "})\n";
+		$html .= "</script>\n";
+		$html .= "<!-- elementsInTree End -->\n";
+		$e->output($html);
+	};
+}
 
 if ($e->name == 'OnManagerTreePrerender') {
 	
@@ -209,6 +223,12 @@ if ($e->name == 'OnManagerTreePrerender') {
 			transition-property: height;
 		}
 
+		#treePane.no-transition .collapsing {
+			-webkit-transition: none;
+			-o-transition: none;
+    		transition: none;
+		}
+
 		#treePane .panel-title a{
 			display: block;
 			padding: 4px 0 4px 15px;
@@ -278,7 +298,7 @@ if ($e->name == 'OnManagerTreePrerender') {
                 });
             }
             
-            var storageKey = "MODX_elementsInTreeParams"; // localStorage-Key
+            var storageKey = "MODX_elementsInTreeParams";
             
             // Function for developers to delete/reset localStorage :
             // localStorage.removeItem(storageKey);
@@ -303,6 +323,7 @@ if ($e->name == 'OnManagerTreePrerender') {
                 // Remember collapsed categories functions
                 function setRememberCollapsedCategories(obj=null) {
                     obj = obj == null ? elementsInTreeParams.cat_collapsed : obj;
+                    jQuery("#treePane").addClass("no-transition");
 					for (var type in obj) {
 						if (!elementsInTreeParams.cat_collapsed.hasOwnProperty(type)) continue;
 						for (var category in elementsInTreeParams.cat_collapsed[type]) {
@@ -322,7 +343,9 @@ if ($e->name == 'OnManagerTreePrerender') {
 							} 
 						}
 					}
+					jQuery("#treePane").removeClass("no-transition");
 				}
+
                 function setLastCollapsedCategory(type, id, state) {
 	                  state = state != 1 ? 1 : 0;
 	                  if(typeof elementsInTreeParams.cat_collapsed[type] == "undefined") elementsInTreeParams.cat_collapsed[type] = {};
