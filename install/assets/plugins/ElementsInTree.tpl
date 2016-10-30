@@ -49,7 +49,7 @@ if( in_array($e->name, array(
 
 // Trigger reloading tree for relevant actions when reloadTree = true
 if ( $e->name == "OnManagerMainFrameHeaderHTMLBlock" ) {
-	$relevantActions = array(16,301,78,22,102,108,76,106);
+	$relevantActions = array(16,19,23,300,301,77,78,22,101,102,108,76,106,107);
 	if(in_array($_GET['a'],$relevantActions) && $_SESSION['elementsInTree']['reloadTree'] == true) {
 		$_SESSION['elementsInTree']['reloadTree'] = false;
 		$html  = "<!-- elementsInTree Start -->\n";
