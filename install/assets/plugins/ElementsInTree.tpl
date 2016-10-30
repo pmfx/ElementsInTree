@@ -100,20 +100,26 @@ if ($e->name == 'OnManagerTreePrerender') {
        
         $treeButtonsInTab_js  = '
           jQuery("#treeMenu").detach().prependTo("#tabDoc");
+          jQuery("#treeMenu").addClass("is-intab");
           parent.tree.resizeTree();
         ';
         
-		$treeButtonsInTab_css = '
+        $treeButtonsInTab_css = '
       #treeHolder {
         padding-top: 10px;
         padding-left: 10px;
       }
       
       #treeMenu {
+        display: none;
         margin-left: 0;
         margin-bottom: 6px;
         background-color: transparent !important;
         border-bottom-width: 0;
+      }
+
+      #treeMenu.is-intab {
+        display: table;
       }
 
       .treeButton,
