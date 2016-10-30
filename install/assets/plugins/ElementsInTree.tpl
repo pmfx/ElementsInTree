@@ -18,7 +18,7 @@
  * @author      pmfx https://github.com/pmfx
  * @author      Nicola1971 https://github.com/Nicola1971
  * @author      Deesen https://github.com/Deesen
- * @lastupdate  26/10/2016
+ * @lastupdate  30/10/2016
  */
 
 global $_lang;
@@ -248,6 +248,8 @@ if ($e->name == 'OnManagerTreePrerender') {
 		#tabPL   li.eltree:before {content: "\f1e6";}
 		#tabMD   li.eltree:before {content: "\f085";}
 		
+		.no-events { pointer-events: none; }
+		
 		'.$unifyFrames_css.'
 		'.$treeButtonsInTab_css.'
 		
@@ -276,8 +278,12 @@ if ($e->name == 'OnManagerTreePrerender') {
                 });
             }
             
+            var storageKey = "MODX_elementsInTreeParams"; // localStorage-Key
+            
+            // Function for developers to delete/reset localStorage :
+            // localStorage.removeItem(storageKey);
+            
 			// Prepare remember collapsed categories function
-			var storageKey = "MODX_elementsInTreeParams";
 	        var storage = localStorage.getItem(storageKey);
 	        var elementsInTreeParams = {};
 	        var searchFieldCache = {};
@@ -331,12 +337,12 @@ if ($e->name == 'OnManagerTreePrerender') {
               
                 '.$treeButtonsInTab_js.'
                 
-                // Shift-Mouseclick opens/collapsed all categories
+                // Manual toggle-function for adding advanced features
                 jQuery(".accordion-toggle").click(function(e) {
 					      e.preventDefault();
 					      var thisItemCollapsed = jQuery(this).hasClass("collapsed");
 					      if (e.shiftKey) {
-					          // Shift-key pressed
+					          // Shift-key pressed, collapse/open all categories 
 					          var toggleItems = jQuery(this).closest(".panel-group").find("> .panel .accordion-toggle");
 					          var collapseItems = jQuery(this).closest(".panel-group").find("> .panel > .panel-collapse");
 					          if(thisItemCollapsed) {
@@ -353,6 +359,7 @@ if ($e->name == 'OnManagerTreePrerender') {
 					          });
 					          writeElementsInTreeParamsToStorage();
 					      } else {
+                            // No shift-key, collapse/open just one  
 					        jQuery(this).toggleClass("collapsed");
 					        jQuery(jQuery(this).attr("href")).collapse("toggle");
 					        // Save state to localStorage
@@ -464,9 +471,12 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
           initQuicksearch(\'tree_'.$resourceTable.'_search\', \'tree_'.$resourceTable.'\');
           jQuery(\'#tree_'.$resourceTable.'_search\').on(\'focus\', function () {
             searchFieldCache = elementsInTreeParams.cat_collapsed;
+            jQuery(\'#tree_'.$resourceTable.' .accordion-toggle\').removeClass("collapsed");
+            jQuery(\'#tree_'.$resourceTable.' .accordion-toggle\').addClass("no-events");
             jQuery(\'.'.$resourceTable.'\').collapse(\'show\');
           }).on(\'blur\', function () {
             setRememberCollapsedCategories(searchFieldCache);
+            jQuery(\'#tree_'.$resourceTable.' .accordion-toggle\').removeClass("no-events");
           });
         </script>';
 			return $output;
@@ -541,8 +551,11 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
           initQuicksearch(\'tree_'.$resourceTable.'_search\', \'tree_'.$resourceTable.'\');
           jQuery(\'#tree_'.$resourceTable.'_search\').on(\'focus\', function () {
             searchFieldCache = elementsInTreeParams.cat_collapsed;
+            jQuery(\'#tree_'.$resourceTable.' .accordion-toggle\').addClass("no-events");
+            jQuery(\'#tree_'.$resourceTable.' .accordion-toggle\').removeClass("collapsed");
             jQuery(\'.'.$resourceTable.'\').collapse(\'show\');
           }).on(\'blur\', function () {
+            jQuery(\'#tree_'.$resourceTable.' .accordion-toggle\').removeClass("no-events");
             setRememberCollapsedCategories(searchFieldCache);
           });
         </script>';
