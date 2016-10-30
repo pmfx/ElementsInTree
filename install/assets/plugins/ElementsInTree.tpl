@@ -27,6 +27,26 @@ $e = &$modx->Event;
 
 if(!isset($_SESSION['elementsInTree'])) $_SESSION['elementsInTree'] = array();
 
+// Set reloadTree = true for this events
+if( in_array($e->name, array(
+		'OnTempFormSave',
+		'OnTVFormSave',
+		'OnChunkFormSave',
+		'OnSnipFormSave',
+		'OnPluginFormSave',
+		'OnModFormSave',
+
+		'OnTempFormDelete',
+		'OnTVFormDelete',
+		'OnChunkFormDelete',
+		'OnSnipFormDelete',
+		'OnPluginFormDelete',
+		'OnModFormDelete',
+
+	)) || $_GET["r"] == 2) {
+	$_SESSION['elementsInTree']['reloadTree'] = true;
+}
+
 // Trigger reloading tree for relevant actions when reloadTree = true
 if ( $e->name == "OnManagerMainFrameHeaderHTMLBlock" ) {
 	$relevantActions = array(16,301,78,22,102,108,76,106);
@@ -41,26 +61,6 @@ if ( $e->name == "OnManagerMainFrameHeaderHTMLBlock" ) {
 		$html .= "<!-- elementsInTree End -->\n";
 		$e->output($html);
 	};
-}
-
-// Set reloadTree = true for this events
-if( in_array($e->name, array(
-	'OnTempFormSave',
-	'OnTVFormSave',
-	'OnChunkFormSave',
-	'OnSnipFormSave',
-	'OnPluginFormSave',
-	'OnModFormSave',
-
-	'OnTempFormDelete',
-	'OnTVFormDelete',
-	'OnChunkFormDelete',
-	'OnSnipFormDelete',
-	'OnPluginFormDelete',
-	'OnModFormDelete',
-
-)) || $_GET["r"] == 2) {
-	$_SESSION['elementsInTree']['reloadTree'] = true;
 }
 
 // Main elementsInTree-part
