@@ -8,7 +8,7 @@
  * @version     1.3.0
  * @license     http://creativecommons.org/licenses/GPL/2.0/ GNU Public License (GPL v2)
  * @internal    @properties &tabTreeTitle=Tree Tab Title;text;Site Tree;;Custom title of Site Tree tab. &useIcons=Use icons in tabs;list;yes,no;yes;;Icons available in MODX version 1.2 or newer. &treeButtonsInTab=Tree Buttons in tab;list;yes,no;yes;;Move Tree Buttons into Site Tree tab. &unifyFrames=Unify Frames;list;yes,no;no;;Unify Tree and Main frame style. Right now supports MODxRE2 theme only.
- * @internal    @events OnManagerTreePrerender,OnManagerTreeRender,OnManagerMainFrameHeaderHTMLBlock
+ * @internal    @events OnManagerTreePrerender,OnManagerTreeRender,OnManagerMainFrameHeaderHTMLBlock,OnTempFormSave,OnTVFormSave,OnChunkFormSave,OnSnipFormSave,OnPluginFormSave,OnModFormSave,OnTempFormDelete,OnTVFormDelete,OnChunkFormDelete,OnSnipFormDelete,OnPluginFormDelete,OnModFormDelete
  * @internal    @modx_category Manager and Admin
  * @internal    @installset base
  * @documentation Requirements: This plugin requires MODX Evolution 1.2 or later
@@ -25,9 +25,33 @@ global $_lang;
 
 $e = &$modx->Event;
 
+if(!isset($_SESSION['elementsInTree'])) $_SESSION['elementsInTree'] = array();
+
+// Set reloadTree = true for this events
+if( in_array($e->name, array(
+		'OnTempFormSave',
+		'OnTVFormSave',
+		'OnChunkFormSave',
+		'OnSnipFormSave',
+		'OnPluginFormSave',
+		'OnModFormSave',
+
+		'OnTempFormDelete',
+		'OnTVFormDelete',
+		'OnChunkFormDelete',
+		'OnSnipFormDelete',
+		'OnPluginFormDelete',
+		'OnModFormDelete',
+
+	)) || $_GET["r"] == 2) {
+	$_SESSION['elementsInTree']['reloadTree'] = true;
+}
+
+// Trigger reloading tree for relevant actions when reloadTree = true
 if ( $e->name == "OnManagerMainFrameHeaderHTMLBlock" ) {
 	$relevantActions = array(16,301,78,22,102,108,76,106);
-	if(in_array($_GET['a'],$relevantActions)) {
+	if(in_array($_GET['a'],$relevantActions) && $_SESSION['elementsInTree']['reloadTree'] == true) {
+		$_SESSION['elementsInTree']['reloadTree'] = false;
 		$html  = "<!-- elementsInTree Start -->\n";
 		$html .= "<script>";
 		$html .= "jQuery(document).ready(function() {";
@@ -39,6 +63,7 @@ if ( $e->name == "OnManagerMainFrameHeaderHTMLBlock" ) {
 	};
 }
 
+// Main elementsInTree-part
 if ($e->name == 'OnManagerTreePrerender') {
 	
 	// use icons
@@ -79,7 +104,7 @@ if ($e->name == 'OnManagerTreePrerender') {
           parent.tree.resizeTree();
         ';
         
-		$treeButtonsInTab_css = '
+        $treeButtonsInTab_css = '
       #treeHolder {
         padding-top: 10px;
         padding-left: 10px;
@@ -96,7 +121,7 @@ if ($e->name == 'OnManagerTreePrerender') {
       #treeMenu.is-intab {
         display: table;
       }
-      
+
       .treeButton,
       .treeButtonDisabled {
         padding: 2px 3px;
@@ -306,7 +331,7 @@ if ($e->name == 'OnManagerTreePrerender') {
             
             var storageKey = "MODX_elementsInTreeParams";
             
-            // Function for developers to delete/reset localStorage :
+            // localStorage reset :
             // localStorage.removeItem(storageKey);
             
 			// Prepare remember collapsed categories function
@@ -366,12 +391,12 @@ if ($e->name == 'OnManagerTreePrerender') {
               
                 '.$treeButtonsInTab_js.'
                 
-                // Manual toggle-function for adding advanced features
+                // Shift-Mouseclick opens/collapsed all categories
                 jQuery(".accordion-toggle").click(function(e) {
 					      e.preventDefault();
 					      var thisItemCollapsed = jQuery(this).hasClass("collapsed");
 					      if (e.shiftKey) {
-					          // Shift-key pressed, collapse/open all categories 
+					          // Shift-key pressed
 					          var toggleItems = jQuery(this).closest(".panel-group").find("> .panel .accordion-toggle");
 					          var collapseItems = jQuery(this).closest(".panel-group").find("> .panel > .panel-collapse");
 					          if(thisItemCollapsed) {
@@ -388,7 +413,6 @@ if ($e->name == 'OnManagerTreePrerender') {
 					          });
 					          writeElementsInTreeParamsToStorage();
 					      } else {
-                            // No shift-key, collapse/open just one  
 					        jQuery(this).toggleClass("collapsed");
 					        jQuery(jQuery(this).attr("href")).collapse("toggle");
 					        // Save state to localStorage
