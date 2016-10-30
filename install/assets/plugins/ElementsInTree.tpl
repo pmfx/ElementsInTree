@@ -5,7 +5,7 @@
  * Get access to all Elements and Modules inside Manager sidebar
  *
  * @category    plugin
- * @version     1.2.1
+ * @version     1.2.2
  * @license     http://creativecommons.org/licenses/GPL/2.0/ GNU Public License (GPL v2)
  * @internal    @properties &tabTreeTitle=Tree Tab Title;text;Site Tree;;Custom title of Site Tree tab. &useIcons=Use icons in tabs;list;yes,no;yes;;Icons available in MODX version 1.2 or newer. &treeButtonsInTab=Tree Buttons in tab;list;yes,no;yes;;Move Tree Buttons into Site Tree tab. &unifyFrames=Unify Frames;list;yes,no;no;;Unify Tree and Main frame style. Right now supports MODxRE2 theme only.
  * @internal    @events OnManagerTreePrerender,OnManagerTreeRender
@@ -18,7 +18,7 @@
  * @author      pmfx https://github.com/pmfx
  * @author      Nicola1971 https://github.com/Nicola1971
  * @author      Deesen https://github.com/Deesen
- * @lastupdate  24/10/2016
+ * @lastupdate  30/10/2016
  */
 
 global $_lang;
@@ -248,6 +248,8 @@ if ($e->name == 'OnManagerTreePrerender') {
 		#tabPL   li.eltree:before {content: "\f1e6";}
 		#tabMD   li.eltree:before {content: "\f085";}
 		
+		.no-events { pointer-events: none; }
+		
 		'.$unifyFrames_css.'
 		'.$treeButtonsInTab_css.'
 		
@@ -276,11 +278,16 @@ if ($e->name == 'OnManagerTreePrerender') {
                 });
             }
             
+            var storageKey = "MODX_elementsInTreeParams"; // localStorage-Key
+            
+            // Function for developers to delete/reset localStorage :
+            // localStorage.removeItem(storageKey);
+            
 			// Prepare remember collapsed categories function
-			var storageKey = "MODX_elementsInTreeParams";
 	        var storage = localStorage.getItem(storageKey);
 	        var elementsInTreeParams = {};
-	        
+	        var searchFieldCache = {};
+
 			try {
 	            if(storage != null) {
 	                try {
@@ -292,43 +299,11 @@ if ($e->name == 'OnManagerTreePrerender') {
 	            } else {
                     elementsInTreeParams = { "cat_collapsed": {} };
                 }
-	            jQuery(document).ready(function() {
-              
-                '.$treeButtonsInTab_js.'
                 
-                // Shift-Mouseclick opens/collapsed all categories
-                jQuery(".accordion-toggle").click(function(e) {
-					      e.preventDefault();
-					      var thisItemCollapsed = jQuery(this).hasClass("collapsed");
-					      if (e.shiftKey) {
-					          // Shift-key pressed
-					          var toggleItems = jQuery(this).closest(".panel-group").find("> .panel .accordion-toggle");
-					          var collapseItems = jQuery(this).closest(".panel-group").find("> .panel > .panel-collapse");
-					          if(thisItemCollapsed) {
-					            toggleItems.removeClass("collapsed");
-					            collapseItems.collapse("show");
-					          } else {
-					            toggleItems.addClass("collapsed");
-					            collapseItems.collapse("hide");
-					          }
-					          // Save states to localStorage
-					          toggleItems.each(function() {
-					            state = jQuery(this).hasClass("collapsed") ? 1 : 0;
-					            setLastCollapsedCategory(jQuery(this).data("cattype"), jQuery(this).data("catid"), state);
-					          });
-					          writeElementsInTreeParamsToStorage();
-					      } else {
-					        jQuery(this).toggleClass("collapsed");
-					        jQuery(jQuery(this).attr("href")).collapse("toggle");
-					        // Save state to localStorage
-					        state = thisItemCollapsed ? 0 : 1;
-					        setLastCollapsedCategory(jQuery(this).data("cattype"), jQuery(this).data("catid"), state);
-					        writeElementsInTreeParamsToStorage();
-					      }
-					});
-					  
-	                // Remember collapsed categories function
-					for (var type in elementsInTreeParams.cat_collapsed) {
+                // Remember collapsed categories functions
+                function setRememberCollapsedCategories(obj=null) {
+                    obj = obj == null ? elementsInTreeParams.cat_collapsed : obj;
+					for (var type in obj) {
 						if (!elementsInTreeParams.cat_collapsed.hasOwnProperty(type)) continue;
 						for (var category in elementsInTreeParams.cat_collapsed[type]) {
 							if (!elementsInTreeParams.cat_collapsed[type].hasOwnProperty(category)) continue;
@@ -347,17 +322,55 @@ if ($e->name == 'OnManagerTreePrerender') {
 							} 
 						}
 					}
-
-	                function setLastCollapsedCategory(type, id, state) {
+				}
+                function setLastCollapsedCategory(type, id, state) {
 	                  state = state != 1 ? 1 : 0;
 	                  if(typeof elementsInTreeParams.cat_collapsed[type] == "undefined") elementsInTreeParams.cat_collapsed[type] = {};
 	                  elementsInTreeParams.cat_collapsed[type][id] = state;
-	                }
-	                
-					function writeElementsInTreeParamsToStorage() {
-						var jsonString = JSON.stringify(elementsInTreeParams);
-						localStorage.setItem(storageKey, jsonString );
-					}
+                }
+				function writeElementsInTreeParamsToStorage() {
+					var jsonString = JSON.stringify(elementsInTreeParams);
+					localStorage.setItem(storageKey, jsonString );
+				}
+				
+	            jQuery(document).ready(function() {
+              
+                '.$treeButtonsInTab_js.'
+                
+                // Manual toggle-function for adding advanced features
+                jQuery(".accordion-toggle").click(function(e) {
+					      e.preventDefault();
+					      var thisItemCollapsed = jQuery(this).hasClass("collapsed");
+					      if (e.shiftKey) {
+					          // Shift-key pressed, collapse/open all categories 
+					          var toggleItems = jQuery(this).closest(".panel-group").find("> .panel .accordion-toggle");
+					          var collapseItems = jQuery(this).closest(".panel-group").find("> .panel > .panel-collapse");
+					          if(thisItemCollapsed) {
+					            toggleItems.removeClass("collapsed");
+					            collapseItems.collapse("show");
+					          } else {
+					            toggleItems.addClass("collapsed");
+					            collapseItems.collapse("hide");
+					          }
+					          // Save states to localStorage
+					          toggleItems.each(function() {
+					            state = jQuery(this).hasClass("collapsed") ? 1 : 0;
+					            setLastCollapsedCategory(jQuery(this).data("cattype"), jQuery(this).data("catid"), state);
+					          });
+					          writeElementsInTreeParamsToStorage();
+					      } else {
+                            // No shift-key, collapse/open just one  
+					        jQuery(this).toggleClass("collapsed");
+					        jQuery(jQuery(this).attr("href")).collapse("toggle");
+					        // Save state to localStorage
+					        state = thisItemCollapsed ? 0 : 1;
+					        setLastCollapsedCategory(jQuery(this).data("cattype"), jQuery(this).data("catid"), state);
+					        writeElementsInTreeParamsToStorage();
+					      }
+					});
+					  
+					setRememberCollapsedCategories();
+
 	            });
 	        } catch(err) {
 	            alert("document.ready error: " + err);
@@ -426,7 +439,7 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
 			$limit = $modx->db->getRecordCount($rs);
 			
 			if($limit<1){
-				echo $_lang['no_results'];
+				return '';
 			}
 			
 			$preCat = '';
@@ -456,6 +469,15 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
         <script>
           jQuery(\'#collapse'.$resourceTable.$row['catid'].'\').collapse();
           initQuicksearch(\'tree_'.$resourceTable.'_search\', \'tree_'.$resourceTable.'\');
+          jQuery(\'#tree_'.$resourceTable.'_search\').on(\'focus\', function () {
+            searchFieldCache = elementsInTreeParams.cat_collapsed;
+            jQuery(\'#tree_'.$resourceTable.' .accordion-toggle\').removeClass("collapsed");
+            jQuery(\'#tree_'.$resourceTable.' .accordion-toggle\').addClass("no-events");
+            jQuery(\'.'.$resourceTable.'\').collapse(\'show\');
+          }).on(\'blur\', function () {
+            setRememberCollapsedCategories(searchFieldCache);
+            jQuery(\'#tree_'.$resourceTable.' .accordion-toggle\').removeClass("no-events");
+          });
         </script>';
 			return $output;
 		}
@@ -496,7 +518,7 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
 			$limit = $modx->db->getRecordCount($rs);
 			
 			if($limit<1){
-				echo $_lang['no_results'];
+                return '';
 			}
 			
 			$preCat   = '';
@@ -527,6 +549,15 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
     
         <script>
           initQuicksearch(\'tree_'.$resourceTable.'_search\', \'tree_'.$resourceTable.'\');
+          jQuery(\'#tree_'.$resourceTable.'_search\').on(\'focus\', function () {
+            searchFieldCache = elementsInTreeParams.cat_collapsed;
+            jQuery(\'#tree_'.$resourceTable.' .accordion-toggle\').addClass("no-events");
+            jQuery(\'#tree_'.$resourceTable.' .accordion-toggle\').removeClass("collapsed");
+            jQuery(\'.'.$resourceTable.'\').collapse(\'show\');
+          }).on(\'blur\', function () {
+            jQuery(\'#tree_'.$resourceTable.' .accordion-toggle\').removeClass("no-events");
+            setRememberCollapsedCategories(searchFieldCache);
+          });
         </script>';
 			return $output;
 		}
