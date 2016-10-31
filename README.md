@@ -10,6 +10,8 @@ This plugin requires MODX Evolution 1.2 or later.
 
 **History**
 
+- 2016-10-31 1.3.2 Prevent Users from submitting filtered elements (Nicola)
+- 2016-10-31 1.3.1 Avoid first category collapse-flicker on reload (Deesen)
 - 2016-10-30 1.3.0 Auto refresh list when adding/saving/deleting Element (Deesen)
 - 2016-10-24 1.2.2 Removed "jumping" when buttons are moved to tab (pmfx)
 - 2016-10-24 1.2.1 Added option to move tree buttons into Site Tree tab (pmfx/Deesen)
