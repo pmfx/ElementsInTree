@@ -10,6 +10,8 @@ This plugin requires MODX Evolution 1.2 or later.
 
 **History**
 
+- 2016-10-24 1.2.1 Added option to move tree buttons into Site Tree tab (pmfx/Deesen)
+- 2016-10-23 1.2.0 Shift-mouseclick on category collapses/expands all categories using localStorage to remember collapsible states (Deesen)
 - 2016-10-22 1.1.5 Improved quicksearch: Hide categories, Show "uncategorized"-category for modules (Deesen)
 - 2016-10-19 1.1.4 Added configuration option to unify tree frame style with main frame for MODxRE2 (pmfx)
 - 2016-10-17 Added configuration option to set custom Site Tree tab title (pmfx)
