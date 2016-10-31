@@ -395,6 +395,10 @@ if ($e->name == 'OnManagerTreePrerender') {
 				}
 				
 	            jQuery(document).ready(function() {
+
+                jQuery(".filterElements-form").keydown(function (e) {
+                    if(e.keyCode == 13) e.preventDefault();
+                });
               
                 '.$treeButtonsInTab_js.'
                 
