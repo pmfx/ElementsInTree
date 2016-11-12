@@ -531,7 +531,6 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
 			$output .= '
     
         <script>
-          jQuery(\'#collapse'.$resourceTable.$row['catid'].'\').collapse();
           initQuicksearch(\'tree_'.$resourceTable.'_search\', \'tree_'.$resourceTable.'\');
           jQuery(\'#tree_'.$resourceTable.'_search\').on(\'focus\', function () {
             searchFieldCache = elementsInTreeParams.cat_collapsed;
