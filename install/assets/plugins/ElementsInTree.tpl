@@ -55,7 +55,7 @@ if ( $e->name == "OnManagerMainFrameHeaderHTMLBlock" ) {
 		$html  = "<!-- elementsInTree Start -->\n";
 		$html .= "<script>";
 		$html .= "jQuery(document).ready(function() {";
-		$html .= "top.tree.location.reload();";
+		$html .= "top.tree.reloadElementsInTree();";
 		$html .= "})\n";
 		$html .= "</script>\n";
 		$html .= "<!-- elementsInTree End -->\n";
@@ -389,9 +389,28 @@ if ($e->name == 'OnManagerTreePrerender') {
 	                  if(typeof elementsInTreeParams.cat_collapsed[type] == "undefined") elementsInTreeParams.cat_collapsed[type] = {};
 	                  elementsInTreeParams.cat_collapsed[type][id] = state;
                 }
+
 				function writeElementsInTreeParamsToStorage() {
 					var jsonString = JSON.stringify(elementsInTreeParams);
 					localStorage.setItem(storageKey, jsonString );
+				}
+				
+				// Issue #20
+				function reloadElementsInTree() {
+					// http://stackoverflow.com/a/7917528/2354531 
+					var url = "index.php?a=1&f=tree";
+					var a = document.createElement("a");
+				    if (a.click)
+				    {
+				        // HTML5 browsers and IE support click() on <a>, early FF does not.
+				        a.setAttribute("href", url);
+				        a.style.display = "none";
+				        document.body.appendChild(a);
+				        a.click();
+				    } else {
+				        // Early FF can, however, use this usual method where IE cannot with secure links.
+				        window.location = url;
+				    }
 				}
 				
 	            jQuery(document).ready(function() {
@@ -647,7 +666,7 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
               <br/>
               <ul class="actionButtons">
               <li><a href="index.php?a=19" target="main">'.$_lang['new_template'].'</a></li>
-              <li><a href="javascript:location.reload();" title="Click here if element was added or deleted to refresh the list.">'.$tabLabel_refresh.'</a></li>
+              <li><a href="javascript:reloadElementsInTree();" title="Click here if element was added or deleted to refresh the list.">'.$tabLabel_refresh.'</a></li>
               </ul>
               </div>
               <div class="tab-page" id="tabTV" style="padding-left:0; padding-right:0;">
@@ -657,7 +676,7 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
               <br/>
               <ul class="actionButtons">
               <li><a href="index.php?a=300" target="main">'.$_lang['new_tmplvars'].'</a></li>
-              <li><a href="javascript:location.reload();" title="Click here if element was added or deleted to refresh the list.">'.$tabLabel_refresh.'</a></li>
+              <li><a href="javascript:reloadElementsInTree();" title="Click here if element was added or deleted to refresh the list.">'.$tabLabel_refresh.'</a></li>
               </ul>
               </div>
 	        ';
@@ -672,7 +691,7 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
               <br/>
               <ul class="actionButtons">
               <li><a href="index.php?a=77" target="main">'.$_lang['new_htmlsnippet'].'</a></li>
-              <li><a href="javascript:location.reload();" title="Click here if element was added or deleted to refresh the list.">'.$tabLabel_refresh.'</a></li>
+              <li><a href="javascript:reloadElementsInTree();" title="Click here if element was added or deleted to refresh the list.">'.$tabLabel_refresh.'</a></li>
               </ul>
               </div>
 	        ';
@@ -687,7 +706,7 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
               <br/>
               <ul class="actionButtons">
               <li><a href="index.php?a=23" target="main">'.$_lang['new_snippet'].'</a></li>
-              <li><a href="javascript:location.reload();" title="Click here if element was added or deleted to refresh the list.">'.$tabLabel_refresh.'</a></li>
+              <li><a href="javascript:reloadElementsInTree();" title="Click here if element was added or deleted to refresh the list.">'.$tabLabel_refresh.'</a></li>
               </ul>
               </div>
 	        ';
@@ -702,7 +721,7 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
               <br/>
               <ul class="actionButtons">
               <li><a href="index.php?a=101" target="main">'.$_lang['new_plugin'].'</a></li>
-              <li><a href="javascript:location.reload();" title="Click here if element was enabled/disabled/added/deleted to refresh the list.">'.$tabLabel_refresh.'</a></li>
+              <li><a href="javascript:reloadElementsInTree();" title="Click here if element was enabled/disabled/added/deleted to refresh the list.">'.$tabLabel_refresh.'</a></li>
               </ul>
               </div>
 	        ';
@@ -724,7 +743,7 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
               <br/>
               <ul class="actionButtons">
               '.$new_module_button.'
-              <li><a href="javascript:location.reload();" title="Click here if element was enabled/disabled/added/deleted to refresh the list.">'.$tabLabel_refresh.'</a></li>
+              <li><a href="javascript:reloadElementsInTree();" title="Click here if element was enabled/disabled/added/deleted to refresh the list.">'.$tabLabel_refresh.'</a></li>
               </ul>
               </div>
 	      ';
