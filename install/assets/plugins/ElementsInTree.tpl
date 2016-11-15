@@ -47,10 +47,13 @@ if( in_array($e->name, array(
 	$_SESSION['elementsInTree']['reloadTree'] = true;
 }
 
-// Trigger reloading tree for relevant actions when reloadTree = true
+// Trigger reloading tree for relevant actions
 if ( $e->name == "OnManagerMainFrameHeaderHTMLBlock" ) {
-	$relevantActions = array(16,19,23,300,301,77,78,22,101,102,108,76,106,107);
-	if(in_array($_GET['a'],$relevantActions) && $_SESSION['elementsInTree']['reloadTree'] == true) {
+	$triggerRequiredActions = array(19,23,300,77,101,108,106,107); // when reloadTree = true
+	$alwaysRefreshActions = array(16,301,78,22,102,76); // Always reload tree
+	if((in_array($_GET['a'],$triggerRequiredActions) && $_SESSION['elementsInTree']['reloadTree'] == true) 
+		|| in_array($_GET['a'], $alwaysRefreshActions)) 
+	{
 		$_SESSION['elementsInTree']['reloadTree'] = false;
 		$html  = "<!-- elementsInTree Start -->\n";
 		$html .= "<script>";
@@ -139,7 +142,12 @@ if ($e->name == 'OnManagerTreePrerender') {
       }
 	  ';
 	}
-	
+
+    // Prepare lang-strings
+    $unlockTranslations = array('msg'=>$_lang["unlock_element_id_warning"],
+                                'type1'=>$_lang["lock_element_type_1"], 'type2'=>$_lang["lock_element_type_2"], 'type3'=>$_lang["lock_element_type_3"], 'type4'=>$_lang["lock_element_type_4"],
+                                'type5'=>$_lang["lock_element_type_5"], 'type6'=>$_lang["lock_element_type_6"], 'type7'=>$_lang["lock_element_type_7"], 'type8'=>$_lang["lock_element_type_8"]);
+
 	// start main output
 	$output = '
 		<style>
@@ -491,10 +499,42 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
 			$tabLabel_refresh   = 'Refresh';
 		}
 		
+		function renderLockIcon($resourceTable, $id)
+		{
+			global $modx, $_lang, $_style;
+			
+			switch($resourceTable) {
+				case 'site_templates': $lockType = 1; break;
+				case 'site_tmplvars': $lockType = 2; break;
+				case 'site_htmlsnippets': $lockType = 3; break;
+				case 'site_snippets': $lockType = 4; break;
+				case 'site_plugins': $lockType = 5; break;
+				case 'site_modules': $lockType = 6; break;
+			}
+			
+			if(!isset($lockType)) return '';
+			
+			$lockedByUser = '';
+			$rowLock = $modx->elementIsLocked($lockType, $id, true);
+			if($rowLock && $modx->hasPermission('display_locks')) {
+				if($rowLock['internalKey'] == $modx->getLoginUserID()) {
+					$title = $modx->parseText($_lang["lock_element_editing"], array('element_type'=>$_lang["lock_element_type_".$lockType],'firsthit_df'=>$rowLock['firsthit_df']));
+					$lockedByUser = '<span title="'.$title.'" class="editResource" style="cursor:context-menu;"><img src="'.$_style['icons_preview_resource'].'" /></span>&nbsp;';
+				} else {
+					$title = $modx->parseText($_lang["lock_element_locked_by"], array('element_type'=>$_lang["lock_element_type_".$lockType], 'username'=>$rowLock['username'], 'firsthit_df'=>$rowLock['firsthit_df']));
+					if($modx->hasPermission('remove_locks')) {
+						$lockedByUser = '<a href="#" onclick="unlockElement('.$lockType.', '.$id.', this);return false;" title="'.$title.'" class="lockedResource"><img src="'.$_style['icons_secured'].'" /></a>';
+					} else {
+						$lockedByUser = '<span title="'.$title.'" class="lockedResource" style="cursor:context-menu;"><img src="'.$_style['icons_secured'].'" /></span>';
+					}
+				}
+			}
+			return '<span id="lock'.$lockType.'_'.$id.'">'.$lockedByUser.'</span>';
+		}
+		
 		$tablePre = $modx->db->config['dbase'] . '.`' . $modx->db->config['table_prefix'];
 		
-		// createResourceList function
-		
+		// create elements list function
 		function createResourceList($resourceTable,$action,$tablePre,$nameField = 'name') {
 			global $modx, $_lang;
 			
@@ -530,7 +570,7 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
 			
 			for($i=0; $i<$limit; $i++) {
 				$row = $modx->db->getRow($rs);
-				$row['category'] = stripslashes($row['category']); //pixelchutes
+				$row['category'] = stripslashes($row['category']);
 				if ($preCat !== $row['category']) {
 					$output .= $insideUl? '</div>': '';
 					$row['catid'] = intval($row['catid']);
@@ -538,7 +578,8 @@ if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet
 					$insideUl = 1;
 				}
 				if ($resourceTable == 'site_plugins') $class = $row['disabled'] ? ' class="disabledPlugin"' : '';
-				$output .= '<li class="eltree"><span'.$class.'><a href="index.php?id='.$row['id'].'&amp;a='.$action.'" target="main"><span class="elementname">'.$row['name'].'</span><small> (' . $row['id'] . ')</small></a>
+				$lockIcon = renderLockIcon($resourceTable, $row['id']);
+				$output .= '<li class="eltree">'.$lockIcon.'<span'.$class.'><a href="index.php?id='.$row['id'].'&amp;a='.$action.'" target="main"><span class="elementname">'.$row['name'].'</span><small> (' . $row['id'] . ')</small></a>
                   <a class="ext-ico" href="#" title="Open in new window" onclick="window.open(\'index.php?id='.$row['id'].'&a='.$action.'\',\'gener\',\'width=800,height=600,top=\'+((screen.height-600)/2)+\',left=\'+((screen.width-800)/2)+\',toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no\')"> <small><i class="fa fa-external-link" aria-hidden="true"></i></small></a>'.($modx_textdir ? '&rlm;' : '').'</span>';
 				
 				$output .= $row['locked'] ? ' <em>('.$_lang['locked'].')</em>' : "" ;
