@@ -10,6 +10,7 @@ This plugin requires MODX Evolution 1.2 or later.
 
 **History**
 
+- 2016-11-15 Action buttons next to filter form (pmfx)
 - 2016-11-15 1.3.3 Fix wrong collapse state at first installation (Deesen); Fix "possible CSFR attempt" when using "update elements" button (Deesen); Added lock-icon display, reload elementsInTree more often to update lock-icons (Deesen)
 - 2016-10-31 1.3.2 Prevent Users from submitting filtered elements (Nicola)
 - 2016-10-31 1.3.1 Avoid first category collapse-flicker on reload (Deesen)
