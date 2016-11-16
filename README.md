@@ -10,16 +10,17 @@ This plugin requires MODX Evolution 1.2 or later.
 
 **History**
 
+- 2016-11-16 Tabs, search form and action buttons positioned fix on top (Deesen); Remember scroll-positions after init/reload (Deesen); Categories and elements wrapped in a DIV-container with overflow-y:auto instead of using frame-scrollbar (Deesen)
 - 2016-11-15 Action buttons next to filter form (pmfx)
-- 2016-11-15 1.3.3 Fix wrong collapse state at first installation (Deesen); Fix "possible CSFR attempt" when using "update elements" button (Deesen); Added lock-icon display, reload elementsInTree more often to update lock-icons (Deesen)
-- 2016-10-31 1.3.2 Prevent Users from submitting filtered elements (Nicola)
-- 2016-10-31 1.3.1 Avoid first category collapse-flicker on reload (Deesen)
-- 2016-10-30 1.3.0 Auto refresh list when adding/saving/deleting Element (Deesen)
-- 2016-10-24 1.2.2 Removed "jumping" when buttons are moved to tab (pmfx)
-- 2016-10-24 1.2.1 Added option to move tree buttons into Site Tree tab (pmfx/Deesen)
-- 2016-10-23 1.2.0 Shift-mouseclick on category collapses/expands all categories using localStorage to remember collapsible states (Deesen)
-- 2016-10-22 1.1.5 Improved quicksearch: Hide categories, Show "uncategorized"-category for modules (Deesen)
-- 2016-10-19 1.1.4 Added configuration option to unify tree frame style with main frame for MODxRE2 (pmfx)
+- 2016-11-15 Fix wrong collapse state at first installation (Deesen); Fix "possible CSFR attempt" when using "update elements" button (Deesen); Added lock-icon display, reload elementsInTree more often to update lock-icons (Deesen)
+- 2016-10-31 Prevent Users from submitting filtered elements (Nicola)
+- 2016-10-31 Avoid first category collapse-flicker on reload (Deesen)
+- 2016-10-30 Auto refresh list when adding/saving/deleting Element (Deesen)
+- 2016-10-24 Removed "jumping" when buttons are moved to tab (pmfx)
+- 2016-10-24 Added option to move tree buttons into Site Tree tab (pmfx/Deesen)
+- 2016-10-23 Shift-mouseclick on category collapses/expands all categories using localStorage to remember collapsible states (Deesen)
+- 2016-10-22 Improved quicksearch: Hide categories, Show "uncategorized"-category for modules (Deesen)
+- 2016-10-19 Added configuration option to unify tree frame style with main frame for MODxRE2 (pmfx)
 - 2016-10-17 Added configuration option to set custom Site Tree tab title (pmfx)
 - 2016-10-16 Fixed Modules tab permissions (pmfx)
 - 2016-10-16 Added Modules tab (Nicola1971)
@@ -30,11 +31,6 @@ This plugin requires MODX Evolution 1.2 or later.
 - 2016-10-06 Added configuration option to use icons or not (pmfx)
 - 2016-10-05 Tabs have icons instead of text shortcut now (pmfx)
 - 2016-10-01 Modified by Piotr Matysiak (pmfx) to respect MODX roles (hasPermission)
-
-**To do**
-
-- Create configuration option to have categories collapsed or not by default
-- Auto refresh list when saving/deleting Element
 
 **Credits**
 
