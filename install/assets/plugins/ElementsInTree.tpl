@@ -765,6 +765,7 @@ if ($e->name == 'OnManagerTreePrerender') {
 	                    var tabId = tabIds[i];
 	                    var tabEl = jQuery("#"+tabId);
 	                    tabEl.css("box-sizing","content-box").css("overflow","auto");
+                        if(typeof elementsInTreeParams.scroll_pos[tabId] == "undefined") continue;
 	                    var tabPage = tabEl.closest(".tab-page");
 	                    if(tabPage.is(":visible")) {
 	                        setScrollXY(tabId, elementsInTreeParams.scroll_pos[tabId]);
