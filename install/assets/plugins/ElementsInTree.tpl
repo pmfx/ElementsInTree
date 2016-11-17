@@ -5,7 +5,7 @@
  * Get access to all Elements and Modules inside Manager sidebar
  *
  * @category    plugin
- * @version     1.4.0
+ * @version     1.5.0
  * @license     http://creativecommons.org/licenses/GPL/2.0/ GNU Public License (GPL v2)
  * @internal    @properties &tabTreeTitle=Tree Tab Title;text;Site Tree;;Custom title of Site Tree tab. &useIcons=Use icons in tabs;list;yes,no;yes;;Icons available in MODX version 1.2 or newer. &treeButtonsInTab=Tree Buttons in tab;list;yes,no;yes;;Move Tree Buttons into Site Tree tab. &unifyFrames=Unify Frames;list;yes,no;yes;;Unify Tree and Main frame style. Right now supports MODxRE2 theme only.
  * @internal    @events OnManagerTreePrerender,OnManagerTreeRender,OnManagerMainFrameHeaderHTMLBlock,OnTempFormSave,OnTVFormSave,OnChunkFormSave,OnSnipFormSave,OnPluginFormSave,OnModFormSave,OnTempFormDelete,OnTVFormDelete,OnChunkFormDelete,OnSnipFormDelete,OnPluginFormDelete,OnModFormDelete
@@ -591,7 +591,7 @@ if ($e->name == 'OnManagerTreePrerender') {
 		}
 		
 		.nu-context-menu ul {
-		    font-size: 15px;
+		    font-size: 14px;
 		    list-style: none;
 		    margin: 2px 0 0;
 		    padding: 4px 0;
@@ -604,13 +604,20 @@ if ($e->name == 'OnManagerTreePrerender') {
 		    cursor: pointer;
 		    font-weight: 400;
 		    line-height: 1.42857;
-		    padding: 2px 20px;
+		    padding: 2px 30px 2px 5px;
+			margin: 0 4px;
 		    white-space: nowrap;
+			border: 1px solid transparent;
 		}
 		
 		.nu-context-menu ul li:hover {
-		    background: #f2f2f2;
+		    background: #E6F2FF;
+			border-color: #BACCDB;
 		    color: #333;
+		}
+		
+		.nu-context-menu ul li .fa {
+		    margin-right: 5px;
 		}
 		
 		.nu-context-menu ul hr {
