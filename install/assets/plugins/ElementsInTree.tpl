@@ -18,6 +18,7 @@
  * @author      pmfx https://github.com/pmfx
  * @author      Nicola1971 https://github.com/Nicola1971
  * @author      Deesen https://github.com/Deesen
+ * @author      yama https://github.com/yama
  * @lastupdate  21/11/2016
  */
 
