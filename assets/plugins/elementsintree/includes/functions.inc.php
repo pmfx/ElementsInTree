@@ -36,7 +36,7 @@ function renderLockIcon($resourceTable, $id)
 }
 
 // create elements list function
-function createResourceList($resourceTable,$action,$tablePre,$nameField = 'name') {
+function createElementsList($resourceTable,$action,$tablePre,$nameField = 'name') {
     global $modx, $_lang;
     
     $output  = '
@@ -106,7 +106,7 @@ function createResourceList($resourceTable,$action,$tablePre,$nameField = 'name'
     return $output;
 }
 
-// end createResourceList function
+// end createElementsList function
 
 // createModulesList function
 

@@ -27,14 +27,14 @@ $text_reload_title = 'Click here to reload elements list.';
 
 $tablePre = $modx->db->config['dbase'] . '.`' . $modx->db->config['table_prefix'];
 
-$temp    = createResourceList('site_templates',16,$tablePre,'templatename');
-$tv      = createResourceList('site_tmplvars',301,$tablePre);
-$chunk   = createResourceList('site_htmlsnippets',78,$tablePre);
-$snippet = createResourceList('site_snippets',22,$tablePre);
-$plugin  = createResourceList('site_plugins',102,$tablePre);
+$temp    = createElementsList('site_templates',16,$tablePre,'templatename');
+$tv      = createElementsList('site_tmplvars',301,$tablePre);
+$chunk   = createElementsList('site_htmlsnippets',78,$tablePre);
+$snippet = createElementsList('site_snippets',22,$tablePre);
+$plugin  = createElementsList('site_plugins',102,$tablePre);
 $module  = createModulesList('site_modules',112,$tablePre);
 
-if ( $modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet') || $modx->hasPermission('edit_chunk') || $modx->hasPermission('edit_plugin') || $modx->hasPermission('exec_module') ) {
+if ( hasAnyPermission() ) {
     $output = '</div>';
 }
 
@@ -49,6 +49,11 @@ if ($modx->hasPermission('edit_template')) {
       <li><a href="javascript:reloadElementsInTree();" title="'.$text_reload_title.'">'.$tabLabel_refresh.'</a></li>
       </ul>
       </div>
+    ';
+}
+
+if ($modx->hasPermission('edit_template')) {
+    $output .= '
       <div class="tab-page" id="tabTV" style="padding-left:0; padding-right:0;">
       <h2 class="tab" title="Template Variables">'.$tabLabel_tv.'</h2>
       <script type="text/javascript">treePane.addTabPage( document.getElementById( "tabTV" ) );</script>
@@ -124,7 +129,7 @@ if ($modx->hasPermission('exec_module')) {
   ';
 }
 
-if ($modx->hasPermission('edit_template') || $modx->hasPermission('edit_snippet') || $modx->hasPermission('edit_chunk') || $modx->hasPermission('edit_plugin') || $modx->hasPermission('exec_module') ) {
+if ( hasAnyPermission() ) {
     
     $output .= '
     <script>
