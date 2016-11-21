@@ -10,7 +10,7 @@ This plugin requires MODX Evolution 1.2 or later.
 
 **History**
 
-- 2016-11-21 Separate bootstrap and body code and code refactor (yama)
+- 2016-11-21 Separate bootstrap and body code and code refactor; Bring API up to date (yama)
 - 2016-11-17 Elements context menu (Deesen)
 - 2016-11-16 Tabs, search form and action buttons positioned fix on top (Deesen); Remember scroll-positions after init/reload (Deesen); Categories and elements wrapped in a DIV-container with overflow-y:auto instead of using frame-scrollbar (Deesen)
 - 2016-11-15 Action buttons next to filter form (pmfx)
