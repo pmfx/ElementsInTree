@@ -2,7 +2,7 @@
 
 With ElementsInTree plugin user gets access to all Elements and Modules inside MODX Evolution Manager sidebar as long as his role permissions allows it.
 
-![screenshot_1](http://image.prntscr.com/image/ac5d25be001d475cbe2f767cf9b5e3e2.png)
+![screenshot_1](http://image.prntscr.com/image/1683ce232a4d45d888e68b813c472d18.png)
 
 **Requirements**
 
