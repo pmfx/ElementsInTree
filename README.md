@@ -2,7 +2,7 @@
 
 With ElementsInTree plugin user gets access to all Elements and Modules inside MODX Evolution Manager sidebar as long as his role permissions allows it.
 
-![screenshot_1](https://i.snag.gy/3cmOh9.jpg)
+![screenshot_1](http://image.prntscr.com/image/ac5d25be001d475cbe2f767cf9b5e3e2.png)
 
 **Requirements**
 
@@ -10,7 +10,7 @@ This plugin requires MODX Evolution 1.2 or later.
 
 **History**
 
-- 2016-11-21 Separate bootstrap and body code (yama)
+- 2016-11-21 Separate bootstrap and body code and code refactor (yama)
 - 2016-11-17 Elements context menu (Deesen)
 - 2016-11-16 Tabs, search form and action buttons positioned fix on top (Deesen); Remember scroll-positions after init/reload (Deesen); Categories and elements wrapped in a DIV-container with overflow-y:auto instead of using frame-scrollbar (Deesen)
 - 2016-11-15 Action buttons next to filter form (pmfx)
