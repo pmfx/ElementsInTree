@@ -34,11 +34,9 @@ $module    = createModulesList(112);
 
 $ph = compact('tabLabel_template','tabLabel_tv','tabLabel_chunk','tabLabel_snippet','tabLabel_plugin','tabLabel_module','tabLabel_create','tabLabel_refresh','text_reload_title','templates','tmplvars','chunk','snippet','plugin','module');
 
-$modx->addSnippet('hasPermission','return $modx->hasPermission($permission);');
+if ( hasAnyPermission() ) $output = '</div>';
 
-if ( hasAnyPermission() ) {
-    $output = '</div>';
-}
+$modx->addSnippet('hasPermission','return $modx->hasPermission($permission);');
 
     $output .= '
 <@IF:[!hasPermission?permission=edit_template!] >
