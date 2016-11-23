@@ -34,12 +34,14 @@ $module    = createModulesList(112);
 
 $ph = compact('tabLabel_template','tabLabel_tv','tabLabel_chunk','tabLabel_snippet','tabLabel_plugin','tabLabel_module','tabLabel_create','tabLabel_refresh','text_reload_title','templates','tmplvars','chunk','snippet','plugin','module');
 
+$modx->addSnippet('hasPermission','return $modx->hasPermission($permission);');
+
 if ( hasAnyPermission() ) {
     $output = '</div>';
 }
 
-if ($modx->hasPermission('edit_template')) {
     $output .= '
+<@IF:[!hasPermission?permission=edit_template!] >
       <div class="tab-page" id="tabTemp" style="padding-left:0; padding-right:0;">
       <h2 class="tab" title="Templates">[+tabLabel_template+]</h2>
       <script type="text/javascript">treePane.addTabPage( document.getElementById( "tabTemp" ) );</script>
@@ -49,11 +51,9 @@ if ($modx->hasPermission('edit_template')) {
       <li><a href="javascript:reloadElementsInTree();" title="[+text_reload_title+]">[+tabLabel_refresh+]</a></li>
       </ul>
       </div>
-    ';
-}
+<@ENDIF>
 
-if ($modx->hasPermission('edit_template')) {
-    $output .= '
+<@IF:[!hasPermission?permission=edit_template!] >
       <div class="tab-page" id="tabTV" style="padding-left:0; padding-right:0;">
       <h2 class="tab" title="Template Variables">[+tabLabel_tv+]</h2>
       <script type="text/javascript">treePane.addTabPage( document.getElementById( "tabTV" ) );</script>
@@ -63,11 +63,9 @@ if ($modx->hasPermission('edit_template')) {
       <li><a href="javascript:reloadElementsInTree();" title="[+text_reload_title+]">[+tabLabel_refresh+]</a></li>
       </ul>
       </div>
-    ';
-}
+<@ENDIF>
 
-if ($modx->hasPermission('edit_chunk')) {
-    $output .= '
+<@IF:[!hasPermission?permission=edit_chunk!] >
       <div class="tab-page" id="tabCH" style="padding-left:0; padding-right:0;">
       <h2 class="tab" title="Chunks">[+tabLabel_chunk+]</h2>
       <script type="text/javascript">treePane.addTabPage( document.getElementById( "tabCH" ) );</script>
@@ -77,11 +75,9 @@ if ($modx->hasPermission('edit_chunk')) {
       <li><a href="javascript:reloadElementsInTree();" title="[+text_reload_title+]">[+tabLabel_refresh+]</a></li>
       </ul>
       </div>
-    ';
-}
+<@ENDIF>
 
-if ($modx->hasPermission('edit_snippet')) {
-    $output .= '
+<@IF:[!hasPermission?permission=edit_snippet!] >
       <div class="tab-page" id="tabSN" style="padding-left:0; padding-right:0;">
       <h2 class="tab" title="Snippets">[+tabLabel_snippet+]</h2>
       <script type="text/javascript">treePane.addTabPage( document.getElementById( "tabSN" ) );</script>
@@ -91,11 +87,9 @@ if ($modx->hasPermission('edit_snippet')) {
       <li><a href="javascript:reloadElementsInTree();" title="[+text_reload_title+]">[+tabLabel_refresh+]</a></li>
       </ul>
       </div>
-    ';
-}
+<@ENDIF>
 
-if ($modx->hasPermission('edit_plugin')) {
-    $output .= '
+<@IF:[!hasPermission?permission=edit_plugin!] >
       <div class="tab-page" id="tabPL" style="padding-left:0; padding-right:0;">
       <h2 class="tab" title="Plugins">[+tabLabel_plugin+]</h2>
       <script type="text/javascript">treePane.addTabPage( document.getElementById( "tabPL" ) );</script>
@@ -105,8 +99,8 @@ if ($modx->hasPermission('edit_plugin')) {
       <li><a href="javascript:reloadElementsInTree();" title="[+text_reload_title+]">[+tabLabel_refresh+]</a></li>
       </ul>
       </div>
+<@ENDIF>
     ';
-}
 
 if ($modx->hasPermission('exec_module')) {
     
@@ -208,6 +202,7 @@ if ( hasAnyPermission() ) {
     $output .= '</div>';
     $_ = $modx->config['enable_filter'];
     $modx->config['enable_filter'] = 1;
+    $output = $modx->mergeConditionalTagsContent($output);
     $output = $modx->parseText($output,$ph);
     $output = $modx->parseText($output,$_lang,'[%','%]');
     $modx->config['enable_filter'] = $_;
