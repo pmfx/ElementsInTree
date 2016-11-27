@@ -10,6 +10,7 @@ This plugin requires MODX Evolution 1.2 or later.
 
 **History**
 
+- 2016-11-27 Refactor with new API (yama)
 - 2016-11-23 Refactor with new API (yama)
 - 2016-11-21 Separate bootstrap and body code and code refactor; Bring API up to date (yama)
 - 2016-11-17 Elements context menu (Deesen)
