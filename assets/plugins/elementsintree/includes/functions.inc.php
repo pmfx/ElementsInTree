@@ -54,7 +54,7 @@ function getLockedByUser($lockType,$rowLock,$id) {
 
 // create elements list function
 function createElementsList($elmTable,$action,$nameField = 'name') {
-    global $modx, $_lang;
+    global $modx, $_lang, $modx_textdir;
     
     $field = array();
     if    ($elmTable == 'site_plugins')  $field['disabled'] = '[+prefix+]site_plugins.disabled';
@@ -128,7 +128,7 @@ function createElementsList($elmTable,$action,$nameField = 'name') {
 
 function createModulesList($action) {
 
-    global $modx, $_lang;
+    global $modx, $_lang, $modx_textdir;
     
     $output  = '
         <form class="filterElements-form filterElements-form--eit" style="margin-top: 0;">
