@@ -10,6 +10,7 @@ This plugin requires MODX Evolution 1.2 or later.
 
 **History**
 
+- 2016-12-27 Replaced text placeholder with language (Nicola)
 - 2016-12-27 Fixed 2 issues #34 (Deesen)
 - 2016-11-29 Margin-bottom fix, added missing $modx_textdir #32 (Deesen)
 - 2016-11-27 Refactor with new API (yama)
