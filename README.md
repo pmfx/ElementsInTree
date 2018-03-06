@@ -1,3 +1,7 @@
+# Deprecated
+
+## Since Evolution CMS 1.2 ElementsInTree is bundled with the system :)
+
 # ElementsInTree
 
 ## Plugin development has been moved to MODX Evolution repository
